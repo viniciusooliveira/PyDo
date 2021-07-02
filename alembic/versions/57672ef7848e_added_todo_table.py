@@ -1,8 +1,8 @@
-"""Added Todo Table2
+"""Added Todo Table
 
-Revision ID: 84f4d233c282
+Revision ID: 57672ef7848e
 Revises: 
-Create Date: 2021-07-01 19:16:25.717845
+Create Date: 2021-07-02 18:14:01.208489
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '84f4d233c282'
+revision = '57672ef7848e'
 down_revision = None
 branch_labels = None
 depends_on = None

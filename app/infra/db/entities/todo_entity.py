@@ -13,3 +13,4 @@ class TodoEntity (Base):
     name: Union[str, Column] = Column(VARCHAR(length=255), nullable=False)
     done: Union[bool, Column] = Column(Boolean, nullable=False)
 
+
