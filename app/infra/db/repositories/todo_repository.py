@@ -1,12 +1,10 @@
-from typing import Optional, Iterable, Iterator
-
+from typing import Optional, Iterable
 from fastapi import Depends
 from sqlalchemy.orm import Session
 from sqlalchemy.orm.exc import NoResultFound
-
 from app.domain.models import Todo
 from app.infra.db.entities import TodoEntity
-from app.infra.db.database import database, get_session
+from app.infra.db.database import get_session
 
 
 class TodoRepository:

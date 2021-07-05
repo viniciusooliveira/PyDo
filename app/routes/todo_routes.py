@@ -1,8 +1,8 @@
 from typing import List
 from fastapi import APIRouter, Depends, status
 
+from app.domain.business.todo_business import TodoBusiness, get_instance as businessInstance
 from app.domain.models import Todo
-from app.infra.db.repositories.todo_repository import get_instance, TodoRepository
 
 router = APIRouter(
     prefix="/todo",
@@ -17,8 +17,8 @@ router = APIRouter(
             name="List Todo Items",
             description="Returns a list of all registered Todo Items",
             response_model=List[Todo])
-async def list_all(repo: TodoRepository = Depends(get_instance)):
-    result = await repo.get_all()
+async def list_all(business: TodoBusiness = Depends(businessInstance)):
+    result = await business.get_all()
     return result
 
 
@@ -26,8 +26,8 @@ async def list_all(repo: TodoRepository = Depends(get_instance)):
             name="List a single Todo Item",
             description="Returns the selected Todo Item",
             response_model=Todo)
-async def get(item_id: int, repo: TodoRepository = Depends(get_instance)):
-    result = await repo.get(item_id)
+async def get(item_id: int, business: TodoBusiness = Depends(businessInstance)):
+    result = await business.get(item_id)
     return result
 
 
@@ -35,9 +35,9 @@ async def get(item_id: int, repo: TodoRepository = Depends(get_instance)):
              name="Create a new Todo Item",
              description="Returns the registered Todo Item",
              response_model=Todo)
-async def post(model: Todo, repo: TodoRepository = Depends(get_instance)):
+async def post(model: Todo, business: TodoBusiness = Depends(businessInstance)):
     model.id = None
-    result = await repo.save(model)
+    result = await business.save(model)
     return result
 
 
@@ -45,9 +45,9 @@ async def post(model: Todo, repo: TodoRepository = Depends(get_instance)):
             name="Updates an Todo Item",
             description="Returns the registered Todo Item",
             response_model=Todo)
-async def put(item_id: int, model: Todo, repo: TodoRepository = Depends(get_instance)):
+async def put(item_id: int, model: Todo, business: TodoBusiness = Depends(businessInstance)):
     model.id = item_id
-    result = await repo.save(model)
+    result = await business.save(model)
     return result
 
 
@@ -55,5 +55,5 @@ async def put(item_id: int, model: Todo, repo: TodoRepository = Depends(get_inst
                name="Delete a Todo Item",
                description="Delete a Todo Item",
                status_code=status.HTTP_202_ACCEPTED)
-async def put(item_id: int, repo: TodoRepository = Depends(get_instance)):
-    await repo.delete(item_id)
+async def put(item_id: int, business: TodoBusiness = Depends(businessInstance)):
+    await business.delete(item_id)
