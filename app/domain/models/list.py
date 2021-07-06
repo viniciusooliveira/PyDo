@@ -1,9 +1,10 @@
-from __future__ import annotations
-from typing import Optional, Type, Any
+import typing
 from pydantic import BaseModel, Field
 
+from app.domain.models.todo import Todo
 
-class Todo(BaseModel):
+
+class List(BaseModel):
     id: int = Field(42,
                     title="Id",
                     description="Todo Identifier")
@@ -13,12 +14,10 @@ class Todo(BaseModel):
     done: bool = Field("true",
                        title="Done",
                        description="Tells the task is done or not")
-    priority: Optional[int] = Field(1,
-                                    title="Priority",
-                                    description="Tells the task level of priority", )
-    list_id: int = Field(1,
-                         title="List ID",
-                         description="Tells which list the item belongs to")
+
+    items: typing.Optional[typing.List[Todo]] = Field(None,
+                                                     title="Items",
+                                                     description="Items")
 
     class Config:
         orm_mode = True

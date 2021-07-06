@@ -16,3 +16,11 @@ Após clonar o repositório, você deverá navegar até a pasta raiz e executar 
 - Executar o comando `poetry install` para instalar as dependências
 - Executar o comando `alembic upgrade head` para criar a estrutura do BD
 - Executar o comando `python main.py`para executar o projeto
+
+## Próximos passos
+- [x] Adicionar camada para regras de negócio
+- [x] Adicionar nova tabela com relação 1-N e verificar como se comportam as migrations 
+- [ ] Verificar a viabilidade de um container para DI
+- [ ] Adicionar testes unitários e de integração
+- [ ] Utilizar métodos assíncronos para comunicação com o BD
+- [ ] Adicionar execução por Docker

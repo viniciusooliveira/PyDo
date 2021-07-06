@@ -1,14 +1,13 @@
 from typing import Optional, Iterable
 from fastapi import Depends
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, lazyload
 from sqlalchemy.orm.exc import NoResultFound
 from app.domain.models import Todo
-from app.infra.db.entities import TodoEntity
+from app.infra.db.entities import TodoEntity, ListEntity
 from app.infra.db.database import get_session
 
 
 class TodoRepository:
-
     _session: Session
 
     def __init__(self, session: Session):
@@ -19,7 +18,9 @@ class TodoRepository:
 
     async def get(self, id_: int) -> Optional[Todo]:
         try:
-            entity = self._session.query(TodoEntity).filter_by(id=id_).one()
+            entity = (self._session.query(TodoEntity)
+                      .options(lazyload("list"))
+                      .filter_by(id=id_).one())
         except NoResultFound:
             return None
 
@@ -28,8 +29,8 @@ class TodoRepository:
     async def get_all(self) -> Iterable[Todo]:
         results = (
             self._session.query(TodoEntity)
-                .limit(100)
-                .all()
+            .limit(100)
+            .all()
         )
         if len(results) == 0:
             return []
@@ -47,9 +48,14 @@ class TodoRepository:
 
             entity.name = model.name
             entity.done = model.done
+            entity.priority = model.priority
         else:
-            entity = TodoEntity(**model.dict())
-            self._session.add(entity)
+            try:
+                entity = TodoEntity(**model.dict())
+                entity.list = self._session.query(ListEntity).filter_by(id=entity.list_id).one()
+                self._session.add(entity)
+            except NoResultFound:
+                return None
 
         self._session.flush()
         self._session.commit()

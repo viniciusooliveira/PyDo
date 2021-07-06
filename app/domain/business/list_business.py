@@ -1,13 +1,14 @@
 from typing import Optional, Iterable
 from fastapi import Depends
 from app.domain.models import Todo
-from app.infra.db.repositories.todo_repository import TodoRepository, get_instance as repo_instance
+from app.infra.db.repositories.list_repository import ListRepository, get_instance as repo_instance
 
 
-class TodoBusiness:
+class ListBusiness:
+
     _repo = None
 
-    def __init__(self, repo: TodoRepository):
+    def __init__(self, repo: ListRepository):
         self._repo = repo
 
     async def exists_by_id(self, id_: int) -> bool:
@@ -26,5 +27,5 @@ class TodoBusiness:
         return await self._repo.delete(id_)
 
 
-def get_instance(repo: TodoRepository = Depends(repo_instance)):
-    return TodoBusiness(repo)
+def get_instance(repo: ListRepository = Depends(repo_instance)):
+    return ListBusiness(repo)
