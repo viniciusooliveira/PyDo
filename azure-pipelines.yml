@@ -4,15 +4,12 @@ trigger:
 pr:
 - master
 
-pool:
-  vmImage: ubuntu-latest
+pool: Default
 
 stages:
   - stage: Build
     jobs:
       - job: Build_App
-        pool:
-          vmImage: 'ubuntu-latest'
         steps:
           - task: CopyFiles@2
             inputs:
