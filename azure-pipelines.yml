@@ -4,8 +4,7 @@ trigger:
 pr:
 - master
 
-pool: 
-  vmImage: ubuntu-latest
+pool: Azure Pipelines
 
 stages:
   - stage: Build
