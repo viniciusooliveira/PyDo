@@ -19,7 +19,7 @@ stages:
           - script: pip install poetry
             displayName: Install poetry
           
-          - script: poetry install && poetry shell
+          - script: python -m poetry install && python -m poetry shell
             displayName: Install dependencies
 
           - task: PublishBuildArtifacts@1
