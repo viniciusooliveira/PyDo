@@ -4,7 +4,7 @@ trigger:
 pr:
 - master
 
-pool: Azure Pipelines
+pool: Default
 
 stages:
   - stage: Build
